@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../CSS/style.css">
     <title>To-Do List App</title>
 </head>
-// Php Code
+
 <?php 
     include "config.php";
     if(isset($_POST['submit'])){

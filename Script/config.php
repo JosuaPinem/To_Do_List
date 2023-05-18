@@ -1,4 +1,5 @@
 <?php
+
     $conf = mysqli_connect("localhost", "root", "", "to_do_list");
 
     if(!$conf){

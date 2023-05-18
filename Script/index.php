@@ -16,9 +16,12 @@
 include 'config.php';
 if (isset($_POST['submit'])) {
     $key = $_POST['task'];
-    $date = $_POST['date'] . " " . date("H:i:s");
+    $jam = strtotime($_POST['jam']);
+    $jam2 = date("H:i:s", $jam);
+    $date = strtotime($_POST['date']);
+    $date2 = date("Y-m-d", $date) . " " . $jam2;
     $keterangan = $_POST['priority'];
-    $push = mysqli_query($conf, "INSERT INTO list VALUES ('', '$key', '$date', '$keterangan')");
+    $push = mysqli_query($conf, "INSERT INTO list VALUES ('', '$key', '$date2', '$keterangan')");
     if ($push) {
         echo "<meta http-equiv='refresh' content='1 url=index.php'>";
     }
@@ -44,7 +47,7 @@ if (isset($_POST['submit'])) {
                     <input type="text" id="task" name="task" placeholder="Enter your task">
                     <input type="date" id="date" title="date" name="date">
                     <div style="position: relative">
-                        <input type="text" id="timePicker" placeholder="00:00">
+                        <input type="text" id="timePicker" name="jam" placeholder="00:00">
                     </div>
                     <select name="priority" id="priority" title="priority">
                         <option selected disabled value="none">Choose Priority</option>
@@ -93,24 +96,27 @@ if (isset($_POST['submit'])) {
                 ?>
                     <ul id="list">
                         <li class="item">
+                        <?php
+                            $cari = date("Y-m-d H:i:s", strtotime($data));
+                            $tampil = mysqli_query($conf, "SELECT * FROM list WHERE waktu LIKE '%$cari%'");
+                            while ($row = mysqli_fetch_array($tampil)) {
+                        ?>
                             <div class="icon">
                                 <i class="fa-regular fa-square"></i>
                             </div>
                             <div class="task">
                                 <span>
-                                    <?php
-                                    $cari = date("Y-m-d H:i:s", strtotime($data));
-                                    $tampil = mysqli_query($conf, "SELECT * FROM list WHERE waktu LIKE '%$cari%'");
-                                    while ($row = mysqli_fetch_array($tampil)) {
-                                        echo $row['catatan'];
-                                    } ?>
+                                    <?= $row['catatan']; ?>
                                 </span>
                                 <span><?php echo date("d M Y H:i:s", strtotime($data)); ?></span>
                                 <span><?php echo "High"; ?></span>
                             </div>
-                            <div class="delete">
-                                <i class="fas fa-trash"></i>
+                            <div class="d-flex gap-1">
+                                    <a href="delete.php?id=<?=$row['id']?>"  class="btn btn-danger d-flex align-items-center p-1">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                             </div>
+                            <?php } ?>
                         </li>
                     </ul>
                 <?php } ?>
@@ -153,24 +159,27 @@ if (isset($_POST['submit'])) {
                 ?>
                     <ul id="list">
                         <li class="item">
+                        <?php
+                            $cari = date("Y-m-d H:i:s", strtotime($data));
+                            $tampil = mysqli_query($conf, "SELECT * FROM list WHERE waktu LIKE '%$cari%'");
+                            while ($row = mysqli_fetch_array($tampil)) {
+                        ?>
                             <div class="icon">
                                 <i class="fa-regular fa-square"></i>
                             </div>
                             <div class="task">
                                 <span>
-                                    <?php
-                                    $cari = date("Y-m-d H:i:s", strtotime($data));
-                                    $tampil = mysqli_query($conf, "SELECT * FROM list WHERE waktu LIKE '%$cari%'");
-                                    while ($row = mysqli_fetch_array($tampil)) {
-                                        echo $row['catatan'];
-                                    } ?>
+                                    <?= $row['catatan']; ?>
                                 </span>
                                 <span><?php echo date("d M Y H:i:s", strtotime($data)); ?></span>
                                 <span><?php echo "Low"; ?></span>
                             </div>
-                            <div class="delete">
-                                <i class="fas fa-trash"></i>
+                            <div class="d-flex gap-1">
+                                    <a href="delete.php?id=<?=$row['id']?>"  class="btn btn-danger d-flex align-items-center p-1">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                             </div>
+                            <?php } ?>
                         </li>
                     </ul>
                 <?php } ?>

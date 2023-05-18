@@ -6,6 +6,12 @@ const priority = document.getElementById("priority");
 const list = document.getElementById("list");
 const add = document.getElementById("add");
 
+$(document).ready(function () {
+	$("#timePicker").datetimepicker({
+		format: "hh:mm",
+	});
+});
+
 // // Add Task & Check Task & Delete Task
 // add.onclick = function () {
 // 	if (task.value === "" || date.value === "" || priority.value === "") {

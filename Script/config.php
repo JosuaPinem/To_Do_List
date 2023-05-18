@@ -6,4 +6,3 @@
         echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
         exit;
     }
-?>
